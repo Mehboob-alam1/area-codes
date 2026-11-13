@@ -19,6 +19,12 @@ const sourcePath = path.join(__dirname, "mledoze-countries.json");
 const outPath = path.join(__dirname, "directory-seed.json");
 
 if (!existsSync(sourcePath)) {
+  if (existsSync(outPath)) {
+    console.log(
+      "mledoze-countries.json is not in this checkout. Using the committed directory-seed.json.",
+    );
+    process.exit(0);
+  }
   console.error(
     "Missing database/seeds/mledoze-countries.json. Download it from https://github.com/mledoze/countries",
   );
