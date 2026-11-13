@@ -1,0 +1,10 @@
+{
+  "name": "world-area-code-directory",
+  "private": true,
+  "scripts": {
+    "seed": "node database/seeds/build-seed.mjs",
+    "dev:api": "npm --prefix backend run dev",
+    "dev:web": "npm --prefix frontend run dev",
+    "test": "npm --prefix backend test"
+  }
+}
