@@ -4,6 +4,7 @@ dist
 .env
 .env.local
 .env.*.local
+hostinger.env
 database/data/store.json
 database/seeds/mledoze-countries.json
 *.log

@@ -8,6 +8,6 @@ if (env.usingDevJwtSecret && env.nodeEnv !== "production") {
   console.warn("ADMIN_JWT_SECRET is not set. The API is using a development-only signing secret.");
 }
 
-app.listen(env.port, () => {
-  console.log(`World Area Code Directory API listening on http://localhost:${env.port}`);
+app.listen(env.port, "127.0.0.1", () => {
+  console.log(`World Area Code Directory API listening on http://127.0.0.1:${env.port}`);
 });

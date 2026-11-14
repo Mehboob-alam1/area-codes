@@ -1,10 +1,14 @@
 {
   "name": "world-area-code-directory",
   "private": true,
+  "main": "server.js",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "seed": "node database/seeds/build-seed.mjs",
+    "seed": "node database/seeds/build-seed.mjs && npm run build",
     "build": "npm install --include=dev --prefix backend && npm install --include=dev --prefix frontend && npm run build --prefix backend && npm run build --prefix frontend",
-    "start": "node scripts/start.mjs",
+    "start": "node server.js",
     "dev:api": "npm --prefix backend run dev",
     "dev:web": "npm --prefix frontend run dev",
     "test": "npm --prefix backend test"
