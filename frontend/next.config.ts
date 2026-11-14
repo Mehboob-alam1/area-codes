@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   turbopack: {
     rules: {
       "*.css": {
@@ -13,7 +14,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [{ protocol: "https", hostname: "flagcdn.com" }],
   },
   async rewrites() {
-    const base = process.env.API_INTERNAL_URL || "http://localhost:5000";
+    const base = process.env.API_INTERNAL_URL || "http://127.0.0.1:5000";
     return [{ source: "/backend-api/:path*", destination: `${base}/api/:path*` }];
   },
 };
