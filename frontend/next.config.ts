@@ -1,9 +1,11 @@
 import type { NextConfig } from "next";
-import path from "path";
+import { fileURLToPath } from "node:url";
+
+const frontendDir = fileURLToPath(new URL(".", import.meta.url));
 
 const nextConfig: NextConfig = {
   output: "standalone",
-  outputFileTracingRoot: path.join(__dirname),
+  outputFileTracingRoot: frontendDir,
   turbopack: {
     rules: {
       "*.css": {
