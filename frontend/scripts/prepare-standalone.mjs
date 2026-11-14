@@ -2,13 +2,18 @@
  * Hostinger serves Next.js only when .next/standalone/server.js exists.
  * This packs that server together with the API and the directory seed.
  */
-import { cpSync, copyFileSync, existsSync, mkdirSync, renameSync, writeFileSync } from "node:fs";
+import { cpSync, copyFileSync, existsSync, mkdirSync, readdirSync, renameSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const frontendDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const repoRoot = path.resolve(frontendDir, "..");
-const standaloneDir = path.join(frontendDir, ".next", "standalone");
+const standaloneRoot = path.join(frontendDir, ".next", "standalone");
+const nestedAppDir = path.join(standaloneRoot, "frontend");
+const standaloneDir =
+  !existsSync(path.join(standaloneRoot, "server.js")) && existsSync(path.join(nestedAppDir, "server.js"))
+    ? nestedAppDir
+    : standaloneRoot;
 const generatedServer = path.join(standaloneDir, "server.js");
 const nextServer = path.join(standaloneDir, "next-server.js");
 
@@ -74,6 +79,15 @@ copyFileSync(
   path.join(seedDir, "directory-seed.json"),
 );
 mkdirSync(path.join(standaloneDir, "tmp"), { recursive: true });
+
+if (standaloneDir !== standaloneRoot) {
+  for (const name of readdirSync(standaloneDir)) {
+    cpSync(path.join(standaloneDir, name), path.join(standaloneRoot, name), {
+      recursive: true,
+      dereference: true,
+    });
+  }
+}
 
 const rootStandalone = path.join(repoRoot, ".next", "standalone");
 cpSync(standaloneDir, rootStandalone, { recursive: true, dereference: true });
