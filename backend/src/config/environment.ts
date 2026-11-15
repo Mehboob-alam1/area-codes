@@ -12,7 +12,7 @@ if (nodeEnv === "production" && !process.env.ADMIN_JWT_SECRET) {
 }
 
 export const env = {
-  port: Number(process.env.PORT || 5000),
+  port: Number(process.env.API_PORT || process.env.PORT || 5000),
   nodeEnv,
   corsOrigins: (process.env.CORS_ORIGIN || "http://localhost:3000")
     .split(",")
