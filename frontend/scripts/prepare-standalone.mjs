@@ -4,6 +4,7 @@
  * static files and the API beside it, then copies the package to the repo root
  * because the Hostinger app root is the repository.
  */
+import { spawnSync } from "node:child_process";
 import { cpSync, copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -47,14 +48,19 @@ const backendDist = path.join(repoRoot, "backend", "dist");
 if (existsSync(backendDist)) {
   try {
     cpSync(backendDist, path.join(standaloneDir, "backend", "dist"), { recursive: true, dereference: true });
-    const backendModules = path.join(repoRoot, "backend", "node_modules");
-    if (existsSync(backendModules)) {
-      cpSync(backendModules, path.join(standaloneDir, "backend", "node_modules"), {
-        recursive: true,
-        dereference: true,
-      });
-    }
     copyFileSync(path.join(repoRoot, "backend", "package.json"), path.join(standaloneDir, "backend", "package.json"));
+    const lockFile = path.join(repoRoot, "backend", "package-lock.json");
+    if (existsSync(lockFile)) {
+      copyFileSync(lockFile, path.join(standaloneDir, "backend", "package-lock.json"));
+    }
+    const install = spawnSync("npm", ["install", "--omit=dev", "--ignore-scripts"], {
+      cwd: path.join(standaloneDir, "backend"),
+      stdio: "inherit",
+      shell: true,
+    });
+    if (install.status !== 0) {
+      console.error("The API dependencies were not installed. The website server is still in place.");
+    }
     const seedDir = path.join(standaloneDir, "database", "seeds");
     mkdirSync(seedDir, { recursive: true });
     copyFileSync(

@@ -1,20 +1,21 @@
 /**
- * Fallback when Hostinger starts the repository root instead of the standalone file.
- * The Next.js deployment starts .next/standalone/server.js directly.
+ * Hostinger starts this file when the application root is the repository.
+ * The Next.js server itself lives in .next/standalone and listens on PORT.
  */
 const fs = require("fs");
 const path = require("path");
 
 const candidates = [
-  path.join(__dirname, ".next", "standalone", "server.js"),
-  path.join(__dirname, "frontend", ".next", "standalone", "server.js"),
+  path.join(__dirname, ".next", "standalone"),
+  path.join(__dirname, "frontend", ".next", "standalone"),
 ];
 
-const entry = candidates.find((file) => fs.existsSync(file));
+const directory = candidates.find((folder) => fs.existsSync(path.join(folder, "server.js")));
 
-if (!entry) {
+if (!directory) {
   console.error("Missing .next/standalone/server.js. The Hostinger build script must be seed.");
   process.exit(1);
 }
 
-require(entry);
+process.chdir(directory);
+require(path.join(directory, "server.js"));

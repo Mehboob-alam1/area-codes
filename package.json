@@ -3,7 +3,7 @@
   "private": true,
   "main": "server.js",
   "engines": {
-    "node": "20.x"
+    "node": "20"
   },
   "scripts": {
     "seed": "node database/seeds/build-seed.mjs && npm run build",
