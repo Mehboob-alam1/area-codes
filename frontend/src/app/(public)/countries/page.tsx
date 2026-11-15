@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { Flag } from "@/components/flag";
 import { EmptyState } from "@/components/ui";
 import { CountryFilters } from "@/components/country-filters";
-import { apiGet } from "@/lib/api";
+import { apiGet } from "@/lib/api-server";
 import { firstParam } from "@/lib/utils";
 import type { CountrySummary, ListResponse } from "@/lib/types";
 

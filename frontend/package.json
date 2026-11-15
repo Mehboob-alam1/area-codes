@@ -6,8 +6,8 @@
     "node": "20"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "node scripts/build-api.mjs && next build --webpack && node scripts/prepare-standalone.mjs",
+    "dev": "node scripts/bundle-directory.mjs && next dev",
+    "build": "node scripts/build-api.mjs && node scripts/bundle-directory.mjs && next build --webpack && node scripts/prepare-standalone.mjs",
     "start": "node .next/standalone/server.js",
     "lint": "eslint"
   },
@@ -32,6 +32,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "esbuild": "^0.25.12",
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
     "tailwindcss": "4.3.3",

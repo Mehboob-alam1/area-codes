@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { EmptyState, VerificationBadge } from "@/components/ui";
 import { AreaCodeFilters } from "@/components/area-code-filters";
-import { apiGet } from "@/lib/api";
+import { apiGet } from "@/lib/api-server";
 import { firstParam } from "@/lib/utils";
 import type { AreaCodeRecord, ListResponse } from "@/lib/types";
 

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Flag } from "@/components/flag";
 import { Breadcrumbs, Card, CopyButton, EmptyState, VerificationBadge } from "@/components/ui";
-import { ApiError, apiGet } from "@/lib/api";
+import { ApiError, apiGet } from "@/lib/api-server";
 import type { AreaCodeRecord, CityRecord, CountryRecord, CountrySummary, Faq, RegionRecord } from "@/lib/types";
 
 interface Detail {

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs, EmptyState, VerificationBadge } from "@/components/ui";
-import { ApiError, apiGet } from "@/lib/api";
+import { ApiError, apiGet } from "@/lib/api-server";
 import type { AreaCodeRecord, CityRecord, CountrySummary } from "@/lib/types";
 
 interface Detail {

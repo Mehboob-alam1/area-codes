@@ -43,31 +43,17 @@ if (existsSync(publicDir)) {
   cpSync(publicDir, path.join(standaloneDir, "public"), { recursive: true, dereference: true });
 }
 
-const backendDist = path.join(repoRoot, "backend", "dist");
-if (existsSync(backendDist)) {
-  try {
-    cpSync(backendDist, path.join(standaloneDir, "backend", "dist"), { recursive: true, dereference: true });
-    copyFileSync(path.join(repoRoot, "backend", "package.json"), path.join(standaloneDir, "backend", "package.json"));
-    const backendModules = path.join(repoRoot, "backend", "node_modules");
-    if (!existsSync(path.join(backendModules, "express"))) {
-      console.error("The API dependencies are missing, so the directory cannot load.");
-      process.exit(1);
-    }
-    cpSync(backendModules, path.join(standaloneDir, "backend", "node_modules"), {
-      recursive: true,
-      dereference: true,
-    });
-    const seedDir = path.join(standaloneDir, "database", "seeds");
-    mkdirSync(seedDir, { recursive: true });
-    copyFileSync(
-      path.join(repoRoot, "database", "seeds", "directory-seed.json"),
-      path.join(seedDir, "directory-seed.json"),
-    );
-  } catch (error) {
-    console.error("The API could not be packed. The Next.js server is still in place.");
-    console.error(error);
-  }
+const directoryApi = path.join(frontendDir, "node_modules", "directory-api");
+if (!existsSync(path.join(directoryApi, "index.js")) || !existsSync(path.join(directoryApi, "directory-seed.json"))) {
+  console.error("The packed directory API is missing, so the site cannot load countries.");
+  process.exit(1);
 }
+const standaloneModules = path.join(standaloneDir, "node_modules", "directory-api");
+mkdirSync(path.dirname(standaloneModules), { recursive: true });
+cpSync(directoryApi, standaloneModules, { recursive: true, dereference: true });
+const seedDir = path.join(standaloneDir, "database", "seeds");
+mkdirSync(seedDir, { recursive: true });
+copyFileSync(path.join(repoRoot, "database", "seeds", "directory-seed.json"), path.join(seedDir, "directory-seed.json"));
 
 mkdirSync(path.join(standaloneDir, "tmp"), { recursive: true });
 
@@ -80,8 +66,10 @@ if (standaloneDir !== standaloneRoot) {
   }
 }
 
+const publishedRoot = path.join(repoRoot, ".next", "standalone");
+rmSync(publishedRoot, { recursive: true, force: true });
 mkdirSync(path.join(repoRoot, ".next"), { recursive: true });
-cpSync(standaloneRoot, path.join(repoRoot, ".next", "standalone"), { recursive: true, dereference: true });
+cpSync(standaloneRoot, publishedRoot, { recursive: true, dereference: true });
 
 const published = path.join(repoRoot, ".next", "standalone", "server.js");
 if (!existsSync(published) || !readFileSync(published, "utf8").includes("startServer")) {

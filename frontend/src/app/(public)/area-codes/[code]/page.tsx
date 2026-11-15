@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs, CopyButton, EmptyState, VerificationBadge } from "@/components/ui";
-import { apiGet } from "@/lib/api";
+import { apiGet } from "@/lib/api-server";
 import type { AreaCodeRecord } from "@/lib/types";
 
 export async function generateMetadata({ params }: { params: Promise<{ code: string }> }): Promise<Metadata> {

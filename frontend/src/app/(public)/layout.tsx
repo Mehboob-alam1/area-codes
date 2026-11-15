@@ -1,6 +1,6 @@
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
-import { apiGet } from "@/lib/api";
+import { apiGet } from "@/lib/api-server";
 
 export const dynamic = "force-dynamic";
 

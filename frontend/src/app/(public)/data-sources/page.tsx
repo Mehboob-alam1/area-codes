@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Prose } from "@/components/prose";
-import { apiGet } from "@/lib/api";
+import { apiGet } from "@/lib/api-server";
 
 export const metadata: Metadata = { title: "Data sources", description: "Sources used for country records, flags and geographic area codes." };
 

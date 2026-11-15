@@ -2,7 +2,7 @@ import Link from "next/link";
 import { SearchBox } from "@/components/search-box";
 import { Flag } from "@/components/flag";
 import { Card, VerificationBadge } from "@/components/ui";
-import { apiGet } from "@/lib/api";
+import { apiGet } from "@/lib/api-server";
 import type { AreaCodeRecord, CountrySummary } from "@/lib/types";
 import { NewsletterForm } from "@/components/newsletter-form";
 

@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { apiGet } from "@/lib/api";
+import { apiGet } from "@/lib/api-server";
 import type { CountrySummary, ListResponse } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
