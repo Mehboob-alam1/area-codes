@@ -43,9 +43,11 @@ if (existsSync(backendDist)) {
   }
   writeFileSync(
     generatedServer,
-    `const apiPort = String(process.env.API_PORT || "5000");
+    `const publicPort = String(process.env.PORT || "");
+let apiPort = String(process.env.API_PORT || "5000");
+if (publicPort && apiPort === publicPort) apiPort = "5050";
 process.env.API_PORT = apiPort;
-process.env.API_INTERNAL_URL = process.env.API_INTERNAL_URL || "http://127.0.0.1:" + apiPort;
+process.env.API_INTERNAL_URL = "http://127.0.0.1:" + apiPort;
 try {
   require("./backend/dist/server.js");
 } catch (error) {
