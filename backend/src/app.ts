@@ -24,20 +24,12 @@ app.use((_req, _res, next) => {
   next();
 });
 
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  limit: 300,
-  standardHeaders: true,
-  legacyHeaders: false,
-  skip: () => env.disableRateLimit,
-  message: { success: false, error: { code: "RATE_LIMIT", message: "Too many requests. Try again in a few minutes." } },
-});
 const phoneLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 30,
   standardHeaders: true,
   legacyHeaders: false,
-  skip: () => env.disableRateLimit,
+  skip: (req) => env.disableRateLimit || req.socket?.remoteAddress === "127.0.0.1",
   message: { success: false, error: { code: "RATE_LIMIT", message: "Phone lookup is temporarily limited. Try again shortly." } },
 });
 const authLimiter = rateLimit({
@@ -45,7 +37,7 @@ const authLimiter = rateLimit({
   limit: 20,
   standardHeaders: true,
   legacyHeaders: false,
-  skip: () => env.disableRateLimit,
+  skip: (req) => env.disableRateLimit || req.socket?.remoteAddress === "127.0.0.1",
   message: { success: false, error: { code: "RATE_LIMIT", message: "Too many sign-in attempts." } },
 });
 
@@ -62,7 +54,6 @@ app.get("/api/v1/health", (_req, res) => {
   });
 });
 
-app.use("/api/v1", limiter);
 app.use("/api/v1/phone", phoneLimiter, phoneRoutes);
 app.use("/api/v1/admin/auth/login", authLimiter);
 app.use("/api/v1/admin", adminRoutes);
