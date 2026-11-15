@@ -7,7 +7,7 @@ export class ApiError extends Error {
 }
 
 export async function apiGet<T>(path: string): Promise<T> {
-  const base = process.env.API_INTERNAL_URL || "http://localhost:5000";
+  const base = process.env.API_INTERNAL_URL || "http://127.0.0.1:5000";
   let response: Response;
   try {
     response = await fetch(`${base}/api/v1${path}`, { cache: "no-store" });

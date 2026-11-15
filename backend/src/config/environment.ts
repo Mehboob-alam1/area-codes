@@ -8,7 +8,7 @@ const root = path.resolve(__dirname, "../../..");
 const nodeEnv = process.env.NODE_ENV || "development";
 
 if (nodeEnv === "production" && !process.env.ADMIN_JWT_SECRET) {
-  throw new Error("ADMIN_JWT_SECRET is required in production.");
+  console.warn("ADMIN_JWT_SECRET is not set. Public pages will load, and admin sign-in stays disabled.");
 }
 
 export const env = {

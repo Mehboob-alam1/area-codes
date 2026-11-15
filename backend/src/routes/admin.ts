@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { z } from "zod";
+import { env } from "../config/environment";
 import { passwordPolicyError, verifyPassword } from "../lib/password";
 import { signToken } from "../lib/tokens";
 import { requireAuth, requirePermission } from "../middleware/auth";
@@ -62,6 +63,9 @@ const countrySchema = z.object({
 });
 
 router.post("/auth/login", validate(z.object({ email: z.string().trim().email(), password: z.string().min(1).max(200) })), (req, res) => {
+  if (env.nodeEnv === "production" && env.usingDevJwtSecret) {
+    return res.status(503).json({ success: false, error: { code: "NOT_CONFIGURED", message: "Admin sign-in is not configured." } });
+  }
   const email = req.body.email.toLowerCase();
   const current = attempts.get(email);
   if (current && current.until > Date.now()) {
