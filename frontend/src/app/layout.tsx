@@ -24,6 +24,9 @@ export const metadata: Metadata = {
     siteName: "World Area Code Directory",
   },
   twitter: { card: "summary_large_image", title: "World Area Code Directory" },
+  verification: {
+    google: "XBQx0x9yLA8YoHu52ZTLQ_TQkQesSAmRQDBoAtHnvSA",
+  },
 };
 
 const themeScript = `(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.classList.add("dark")}}catch(e){}})();`;
